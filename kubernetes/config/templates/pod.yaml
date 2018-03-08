@@ -5,6 +5,20 @@ metadata:
   namespace: "{{ .Values.nsPrefix }}"
 data:
 {{ .Files.Get "onap-parameters.yaml" | indent 2 }}
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-data-claim
+  namespace: "{{ .Values.nsPrefix }}"
+spec:
+  storageClassName: onap-shared-data
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Pod
@@ -12,6 +26,8 @@ metadata:
   name: {{ .Chart.Name }}
   namespace: "{{ .Values.nsPrefix }}"
 spec:
+  # nodeSelector:
+  #   config: master
   containers:
     - name: {{ .Chart.Name }}
       image: "{{ .Values.image.repository }}"
@@ -33,6 +49,8 @@ spec:
         mountPath: /config-init/
   volumes:
     - name: config-init-root
-      hostPath:
-        path: {{ .Values.dockerSharePath }}
+      persistentVolumeClaim:
+        claimName: shared-data-claim
+      # hostPath:
+      #   path: {{ .Values.dockerSharePath }}
   restartPolicy: Never

@@ -1,0 +1,7 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: "{{ .Values.nsPrefix }}-shared-data"
+  namespace: "{{ .Values.nsPrefix }}"
+provisioner: {{ .Values.nsPrefix }}/shared-nfs
+

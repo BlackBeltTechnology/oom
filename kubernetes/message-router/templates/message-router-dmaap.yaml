@@ -48,26 +48,45 @@ spec:
         - mountPath: /etc/localtime
           name: localtime
           readOnly: true
+        
         - mountPath: /appl/dmaapMR1/bundleconfig/etc/appprops/MsgRtrApi.properties
-          name: appprops
+          name: config
+          subPath: {{ .Values.nsPrefix }}/message-router/dmaap/MsgRtrApi.properties
+
         - mountPath: /appl/dmaapMR1/etc/cadi.properties
-          name: cadi
+          name: config
+          subPath: {{ .Values.nsPrefix }}/message-router/dmaap/cadi.properties
+
         - mountPath: /appl/dmaapMR1/etc/keyfile
-          name: mykey
+          name: config
+          subPath: {{ .Values.nsPrefix }}/message-router/dmaap/mykey
+
       restartPolicy: Always
       volumes:
       - name: localtime
         hostPath:
           path: /etc/localtime
-      - name: appprops
-        hostPath:
-          path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dmaap/MsgRtrApi.properties
-      - name: cadi
-        hostPath:
-          path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dmaap/cadi.properties
-      - name: mykey
-        hostPath:
-          path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dmaap/mykey
+
+      - name: config
+        persistentVolumeClaim:
+          claimName: shared-data-claim
+
+
+      # - name: appprops
+      #   persistentVolumeClaim:
+      #     claimName: shared-data-claim
+      #   hostPath:
+      #     path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dmaap/MsgRtrApi.properties
+      # - name: cadi
+      #   persistentVolumeClaim:
+      #     claimName: shared-data-claim
+      #   hostPath:
+      #     path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dmaap/cadi.properties
+      # - name: mykey
+      #   persistentVolumeClaim:
+      #     claimName: shared-data-claim
+      #   hostPath:
+      #     path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dmaap/mykey
       imagePullSecrets:
       - name: "{{ .Values.nsPrefix }}-docker-registry-key"
 {{ end }}

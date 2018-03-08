@@ -25,8 +25,14 @@ spec:
         volumeMounts:
         - mountPath: /consul/config
           name: consul-server-config
+          subPath: {{ .Values.nsPrefix }}/consul/consul-server-config
+
       volumes:
-      - hostPath:
-          path: {{ .Values.rootHostPath }}/{{ .Values.nsPrefix }}/consul/consul-server-config
-        name: consul-server-config
+        - name: consul-server-config
+          persistentVolumeClaim:
+            claimName: shared-data-claim
+
+      # - hostPath:
+      #     path: {{ .Values.rootHostPath }}/{{ .Values.nsPrefix }}/consul/consul-server-config
+      #   name: consul-server-config
 #{{ end }}

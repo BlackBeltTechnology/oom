@@ -60,6 +60,7 @@ spec:
           name: docker-socket
         - mountPath: /kafka
           name: kafka-data
+          subPath: {{ .Values.nsPrefix }}/message-router/dcae-startup-vm-message-router/docker_files/data-kafka
       restartPolicy: Always
       volumes:
       - name: localtime
@@ -70,7 +71,8 @@ spec:
           path: /var/run/docker.sock
       - name: kafka-data
         persistentVolumeClaim:
-          claimName: message-router-kafka
+          # claimName: message-router-kafka
+          claimName: shared-data-claim
       imagePullSecrets:
       - name: "{{ .Values.nsPrefix }}-docker-registry-key"
 #{{ end }}

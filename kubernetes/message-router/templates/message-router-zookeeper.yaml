@@ -32,6 +32,7 @@ spec:
           readOnly: true
         - mountPath: /opt/zookeeper-3.4.9/data
           name: zookeeper-data
+          subPath: {{ .Values.nsPrefix }}/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper
       restartPolicy: Always
       volumes:
       - name: localtime
@@ -39,7 +40,8 @@ spec:
           path: /etc/localtime
       - name: zookeeper-data
         persistentVolumeClaim:
-          claimName: message-router-zookeeper
+          # claimName: message-router-zookeeper
+          claimName: shared-data-claim
       imagePullSecrets:
       - name: "{{ .Values.nsPrefix }}-docker-registry-key"
 #{{ end }}

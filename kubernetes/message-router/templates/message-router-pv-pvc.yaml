@@ -1,65 +1,65 @@
-#{{ if not .Values.disableMessageRouterGlobalKafka }}
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: "{{ .Values.nsPrefix }}-message-router-kafka"
-  namespace: "{{ .Values.nsPrefix }}"
-  labels:
-    name: "{{ .Values.nsPrefix }}-message-router-kafka"
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dcae-startup-vm-message-router/docker_files/data-kafka/
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: message-router-kafka
-  namespace: "{{ .Values.nsPrefix }}"
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 2Gi
-  selector:
-    matchLabels:
-      name: "{{ .Values.nsPrefix }}-message-router-kafka"
-#{{ end }}
-#{{ if not .Values.disableMessageRouterZookeeper }}
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: "{{ .Values.nsPrefix }}-message-router-zookeeper"
-  namespace: "{{ .Values.nsPrefix }}"
-  labels:
-    name: "{{ .Values.nsPrefix }}-message-router-zookeeper"
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: message-router-zookeeper
-  namespace: "{{ .Values.nsPrefix }}"
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 2Gi
-  selector:
-    matchLabels:
-      name: "{{ .Values.nsPrefix }}-message-router-zookeeper"
-#{{ end }}
+# #{{ if not .Values.disableMessageRouterGlobalKafka }}
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: "{{ .Values.nsPrefix }}-message-router-kafka"
+#   namespace: "{{ .Values.nsPrefix }}"
+#   labels:
+#     name: "{{ .Values.nsPrefix }}-message-router-kafka"
+# spec:
+#   capacity:
+#     storage: 2Gi
+#   accessModes:
+#     - ReadWriteMany
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dcae-startup-vm-message-router/docker_files/data-kafka/
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: message-router-kafka
+#   namespace: "{{ .Values.nsPrefix }}"
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 2Gi
+#   selector:
+#     matchLabels:
+#       name: "{{ .Values.nsPrefix }}-message-router-kafka"
+# #{{ end }}
+# #{{ if not .Values.disableMessageRouterZookeeper }}
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: "{{ .Values.nsPrefix }}-message-router-zookeeper"
+#   namespace: "{{ .Values.nsPrefix }}"
+#   labels:
+#     name: "{{ .Values.nsPrefix }}-message-router-zookeeper"
+# spec:
+#   capacity:
+#     storage: 2Gi
+#   accessModes:
+#     - ReadWriteMany
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: {{ .Values.dataRootDir }}/{{ .Values.nsPrefix }}/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: message-router-zookeeper
+#   namespace: "{{ .Values.nsPrefix }}"
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 2Gi
+#   selector:
+#     matchLabels:
+#       name: "{{ .Values.nsPrefix }}-message-router-zookeeper"
+# #{{ end }}
